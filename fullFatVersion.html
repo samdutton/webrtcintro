@@ -6,11 +6,10 @@ Authors: Eric Bidelman <ebidel@gmail.com>
 
 URL: https://code.google.com/p/io-2012-slides
 -->
-
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Introduction to WebRTC</title>
+  <title></title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
@@ -29,7 +28,7 @@ URL: https://code.google.com/p/io-2012-slides
 
 <slide class="logoslide nobackground">
   <article class="flexbox vcenter">
-    <div style='margin: 0 0 2em 0'><img src="images/google_developers_logo.png" alt="Google developers logo"></div>
+    <div style='margin: 0 0 2em 0'><img src="images/google_developers_logo.png"></div>
 <!--     <div>Move forward and back with the arrow keys</div>
  -->  </article>
 </slide>
@@ -331,14 +330,14 @@ URL: https://code.google.com/p/io-2012-slides
   </aside>
 </slide>
 
-<!-- <slide class="nobackground">
+<slide class="nobackground">
   <article class="flexbox vcenter">
     <img src="images/mediaStream.png" alt="MediaStream diagram" style="width: 733px" />
   </article>
   </article>
   <aside class="note">
   </aside>
-</slide> -->
+</slide>
 
 <slide>
   <hgroup>
@@ -376,7 +375,7 @@ function errorCallback(error) {
 
 <slide>
   <hgroup>
-    <h2>gUM permissions</h2>
+    <h2>gUM permissions</h3>
   </hgroup>
   <article>
     <ul>
@@ -456,7 +455,7 @@ function errorCallback(error) {
     </aside>
 </slide> -->
 
-<!-- <slide class="nobackground">
+<slide class="nobackground">
     <article class="fill flexbox vcenter">
       <div style="margin: 0 0 1em 0; font-weight: bold">gUM + head tracking</div>
       <div><a href="http://www.shinydemos.com/facekat/" title="getUserMedia used to control a game">FaceKat</a></div>
@@ -481,7 +480,7 @@ function errorCallback(error) {
     </article>
     <aside class="note">
     </aside>
-</slide> -->
+</slide>
 
 <!-- <slide class="nobackground">
     <article class="fill flexbox vcenter">
@@ -501,7 +500,7 @@ function errorCallback(error) {
 </slide> -->
 
 
-<!-- <slide>
+<slide>
   <hgroup>
     <h2>Constraints</h2>
   </hgroup>
@@ -524,7 +523,7 @@ function errorCallback(error) {
     <p>Constraints allow us to impose constraints on media</p>
     <p>In the simple gUM example, we chose to get video only, so as to avoid feedback.</p>
   </aside>
-</slide> -->
+</slide>
 
 <slide>
   <hgroup>
@@ -875,7 +874,7 @@ function gotAudio(stream) {
   </aside>
 </slide>
 
-<!-- <slide>
+<slide>
   <hgroup>
     <h2>Signaling: how?</h2>
   </hgroup>
@@ -898,7 +897,7 @@ function gotAudio(stream) {
   </article>
     <aside class="note">
     </aside>
-</slide> -->
+</slide>
 
 <slide>
   <hgroup>
@@ -917,7 +916,7 @@ function gotAudio(stream) {
     </aside>
 </slide>
 
-<!-- <slide>
+<slide>
   <hgroup>
     <h2>Signaling gotchas</h2>
   </hgroup>
@@ -930,7 +929,7 @@ function gotAudio(stream) {
   </article>
     <aside class="note">
     </aside>
-</slide> -->
+</slide>
 
 <slide>
   <hgroup>
@@ -940,12 +939,11 @@ function gotAudio(stream) {
     <ul>
       <li>Ascertain local media conditions: resolution, codec capabilities...</li>
       <li>Get potential network addresses for the application's host: candidates</li>
-        <li>Exchange this data via the signaling mechanism.</li>
     </ul>
   </article>
 </slide>
 
-<!-- <slide>
+<slide>
   <hgroup>
     <h2>Make me an offer</h2>
   </hgroup>
@@ -963,7 +961,7 @@ function gotAudio(stream) {
     <aside class="note">
       <ol>
         <li>The caller creates an RTCPeerConnection object and sets the local description.</li>
-        <li>Caller uses RTCPeerConnection to create an offer. An offer is a blob - a local session description in SDP format.</li>
+        <li>Caller uses RTCPeerConnection to create an offer. An offer is a blob -- a local session description in SDP format.</li>
         <li>The offer or answer can be edited, for example to tweak codecs.</li>
       </ol>
     </aside>
@@ -988,7 +986,7 @@ function gotAudio(stream) {
     <p>Once Fred and Wilma have a signaling channel, they can start sending network and media metadata, to make a direct connection and to start streaming audio and video.</p>
     <p>This is the process of exchanging network data.</p>
     </aside>
-</slide> -->
+</slide>
 
 <slide>
   <hgroup>
@@ -1068,7 +1066,7 @@ a=ice-pwd:xdQEccP40E+P0L5qTyzDgfmW
     </aside>
 </slide>
 
-<!-- <slide class="nobackground">
+<slide class="nobackground">
     <article class="fill flexbox vcenter">
       <div style="margin: 0 0 1em 0; font-weight: bold">Edit SDP</div>
       <div><a href="http://simpl.info/rtcpeerconnection/munge" title="Edit SDP values">simpl.info/rtcpeerconnection/munge</a></div>
@@ -1076,7 +1074,7 @@ a=ice-pwd:xdQEccP40E+P0L5qTyzDgfmW
     <aside class="note">
     <p>This demo shows offer and answer SDP, which can be edited.</p>
     </aside>
-</slide> -->
+</slide>
 
 <slide class="nobackground">
     <article class="fill flexbox vcenter">
@@ -1445,7 +1443,7 @@ document.querySelector("button#send").onclick = function (){
   </aside>
 </slide>
 
-<!-- <slide class="segue dark nobackground">
+<slide class="segue dark nobackground">
   <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
   <hgroup class="auto-fadein">
     <h2>Architectures</h2>
@@ -1501,7 +1499,7 @@ document.querySelector("button#send").onclick = function (){
     <aside class="note">
   <p>The most robust solution is to use what's called a MCU, or multipoint control unit. This is a server that's made specifically to do distribution of media, and can handle large numbers of participants; it can also do smart things like selective stream forwarding, mixing of the audio or video, or recording.</p>
   </aside>
-</slide> -->
+</slide>
 
 <slide class="segue dark nobackground">
   <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
@@ -1544,7 +1542,7 @@ document.querySelector("button#send").onclick = function (){
   </aside>
 </slide>
 
-<!-- <slide>
+<slide>
   <hgroup>
     <h2>Tethr</h2>
   </hgroup>
@@ -1556,7 +1554,7 @@ document.querySelector("button#send").onclick = function (){
       <p>Set up an OpenBTS cell to enable communications between feature phones and computers via WebRTC.</p>
       <p>Telephone communication without a carrier!</p>
     </aside>
-</slide> -->
+</slide>
 
 
 
@@ -1651,7 +1649,7 @@ document.querySelector("button#send").onclick = function (){
   </article>
 </slide> -->
 
-<!-- <slide>
+<slide>
   <hgroup>
     <h2>SimpleWebRTC</h2>
     <h3>Easy peer-to-peer video and audio</h3>
@@ -1713,9 +1711,9 @@ conn.on('open', function(){
     <aside class="note">
       <p>Javascript frameworks make writing apps easier, but they don't handle some of the more complicated aspects, like signaling and TURN servers. Fortunately, there are a couple turnkey WebRTC services out there that take care of all of this for you. You can sign up for these services, get an API key, and then make calls using their deployed infrastructure; they also offer UI components that can easily be integrated into your application.</p>
     </aside>
-</slide> -->
+</slide>
 
-<!-- <slide>
+<slide>
   <hgroup>
     <h2>Don't forget the C++!</h2>
   </hgroup>
@@ -1723,9 +1721,9 @@ conn.on('open', function(){
     <a href="http://www.webrtc.org/webrtc-native-code-package" title="WebRTC API documentation">webrtc.org/webrtc-native-code-package</a>
   </article>
     <aside class="note">
-      <p>The WebRTC C++ APIs mean you can build a WebRTC client on a server - check out the example in the webrtc.org source repository.</p>
+      <p>The WebRTC C++ APIs mean you can build a WebRTC client on a server -- check out the example in the webrtc.org source repository.</p>
     </aside>
-</slide> -->
+</slide>
 
 
 <slide>
@@ -1791,7 +1789,7 @@ conn.on('open', function(){
       <div class="big"><a href="http://talky.io/webrtcintro" title="Video chat app">talky.io/webrtcintro</a></div>
     </article>
     <aside class="note">
-    <p>WebRTC live!</p>
+    Once again, the link to the slides.
     </aside>
 </slide>
 
