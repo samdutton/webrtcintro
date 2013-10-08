@@ -61,6 +61,8 @@ URL: https://code.google.com/p/io-2012-slides
       <div class='big'><a href="http://webrtcintro.appspot.com" title="These slides online">webrtcintro.appspot.com</a></div>
     </article>
     <aside class="note">
+      First of all, this deck is live on the web, so you can follow along or refer to it later.
+    <p>I'm going to lay out the fundamentals of WebRTC, including showing you what you can build with WebRTC and how, but I'm going to begin by explaining some of the context of the project.</p>
     </aside>
 </slide>
 
@@ -76,6 +78,8 @@ URL: https://code.google.com/p/io-2012-slides
 <slide class="segue dark quote nobackground">
   <aside class="gdbar right bottom"><img src="images/google_developers_icon_128.png"></aside>
   <article class="flexbox vleft auto-fadein">
+    <h3>Real-time communication built into the browser</h3>
+    <hr>
     <q>WebRTC is a new front in the long war for an open and unencumbered web</q>
     <div class="author">
       Brendan Eich<br>
@@ -83,20 +87,10 @@ URL: https://code.google.com/p/io-2012-slides
     </div>
   </article>
   <aside class="note">
-    <p>I'm going to talk about WebRTC. I'm going to show you how to build a WebRTC app, but I'm going to begin by explaining some of the context to the project.</p>
+    <p>WebRTC is a collaboration to build real time communication into web browsers.</p>
+    <p>Web RTC really is a response to the demand for realtime communication features in the open web - without plugins or proprietary codecs, free for developers and users.</p>
+    <p>This has been a big missing feature in the web platform.</p>
   </aside>
-</slide>
-
-<slide class="nobackground">
-  <article class="fill flexbox vcenter">
-    <div>Real-time communication built into the browser</div>
-  </article>
-  <aside class="note">
-  <p>WebRTC is a collaboration to build real time communication into web browsers.</p>
-  <p>Open source, no plugins, free for developers and users.</p>
-  <p>As my colleague Serge Lachapelle said, human communication should be as natural in a web app as entering text in a text box.</p>
-  <p>This has been a big missing parts browser.</p>
- </aside>
 </slide>
 
 <slide class="nobackground">
@@ -114,10 +108,8 @@ URL: https://code.google.com/p/io-2012-slides
       <div class='big'><img src="images/no.png" alt="RTC via a server" style='max-width: 100%' /></div>
     </article>
     <aside class="note">
-      <p>In the past, RTC worked like this.</p>
-      <p>Corporate, closed, and complex to integrate with existing services</p>
-      <p>Noone wants communication based on a nasty diagram like that...</p>
-      <p>It's inefficient and expensive running a service to relay media.</p>
+      <p>In the past, a lot of RTC was based on a server managing all communications, running all communications through that server.</p>
+      <p>It's inefficient and expensive to run a service to relay media.</p>
     </aside>
 </slide>
 
@@ -127,9 +119,8 @@ URL: https://code.google.com/p/io-2012-slides
       <div class='big'><img src="images/yes.png" alt="RTC peer to peer" style='max-width: 100%' /></div>
     </article>
     <aside class="note">
-      <p>This looks much better.</p>
-      <p>it's got a nice fluffy cloud right in the middle.</p>
-      <p>As we'll find out, if only it were that simple...</p>
+      <p>So WebRTC is peer to peer - with a nice friendly fluffy cloud right in the middle.</p>
+      <p>As we'll find out, it's not quite that simple, but keep this image in mind.</p>
     </aside>
 </slide>
 
@@ -142,13 +133,11 @@ URL: https://code.google.com/p/io-2012-slides
       <li>IETF communication protocols: <a href="http://tools.ietf.org/html/draft-ietf-rtcweb-overview" title="IETF: Overview: Real Time Protocols for Brower-based Applications">RTCWEB</a>, <a href="http://tools.ietf.org/html/draft-ietf-rtcweb-jsep-00" title="IETF draft proposal">JSEP</a>...</li>
       <li>W3C API standards: <a href="http://www.w3.org/TR/webrtc/" title="W3C WebRTC draft spec">WebRTC</a>, <a href="http://www.w3.org/TR/mediacapture-streams/" title="W3C Media Capture and Streams draft spec">Media Capture and Streams</a>... </li>
       <li>Media and communication stack: <a href="http://www.webrtc.org/reference/webrtc-internals" title="webrtc.org WebRTC Internals: libjingle components reused by WebRTC">libjingle</a>, <a href="http://www.webmproject.org/tools/" title="WebM and VP8 tools">VP8</a>, <a href="http://www.opus-codec.org/" title="Opus Codec home page">Opus</a>...</li>
-      <li>Design for a new communications ecosystem</li>
     </ul>
   </article>
   <aside class="note">
-    <p>What WebRTC needed.</p>
-    <p>A word about libjingle... Jingle is an extension of XMPP created by Google to enable audio and video for messaging. Libjingle is a C++ library, an implementation of Jingle initially developed for Google Talk.</p>
-    <p>A new ecosystem of WebRTC-enabled devices.</p>
+    <p>When I say WebRTC, I want to be clear that WebRTC is actually a collective solution built from a wide litany of various pieces coming together - the base RTCWeb and session protocols from the IETF, WebRTC and Media Capture and Streams from the W3C, the libjingle library for doing XMPP-based peer-to-peer management, and the VP8 video and Opus audio codecs.</p>
+    <p>With all of these required pieces, this may seem... fragile.  Like, it must only be implemented on a particular version of Chrome, on one OS, with particular hardware.</p>
   </aside>
 </slide>
 
@@ -167,7 +156,7 @@ URL: https://code.google.com/p/io-2012-slides
     <img src="images/firefoxChrome.jpg" alt="Firefox/Chrome interoperability" style="position: absolute; bottom: 5em; width: 45%;" />
   </article>
   <aside>
-    <p>Where are we now?</p>
+    <p>Actually, that's not true at all.  Chrome, Firefox and Opera all implement WebRTC; in fact, Chrome and Firefox implement WebRTC on Android, too!  Let's take a look; Peter is outside with my Android tablet right now, and I'm going to jump over to Firefox...</p>
   </aside>
 </slide>
 
@@ -183,7 +172,7 @@ URL: https://code.google.com/p/io-2012-slides
     </ul>
   </article>
   <aside class="note">
-    <p>The Qt framework (for building cross-platform/device native and embedded apps, now owned by Digia) is moving from Qt WebKit to Qt WebEngine, based on Chromium</p>
+    <p>The Qt framework (for building cross-platform/device native and embedded apps) is moving from Qt WebKit to Qt WebEngine, based on Chromium, so they will be getting WebRTC support too!</p>
   </aside>
 </slide>
 
@@ -193,7 +182,7 @@ URL: https://code.google.com/p/io-2012-slides
        <div>WebRTC endpoints</div>
   </article>
   <aside class="note">
-  <p>Over one billion WebRTC-enabled users, which gives some idea of the size of this opportunity. In order to grow the ecosystem further, we're also providing official, supported native versions of WebRTC for Android, and iOS.</p>
+  <p>With all of these together, this means we have over one billion WebRTC-enabled users today, which gives some idea of the size of this opportunity. In order to grow the ecosystem further, we're also providing official, supported native versions of WebRTC for Android, and iOS.</p>
   </aside>
 </slide>
 
@@ -207,6 +196,7 @@ URL: https://code.google.com/p/io-2012-slides
     </div>
   </article>
   <aside class="note">
+    [cwilso]Is the point of this that WebRTC is audio-only too?
     <p>The impact could be profound.</p>
     <p>The end of telephony as we know it? Time will tell.</p>
   </aside>
@@ -228,6 +218,7 @@ URL: https://code.google.com/p/io-2012-slides
       <footer class="source" style='position: absolute; bottom: 23px; left: 150px'><a href="https://en.wikipedia.org/wiki/File:BBC_HD_SNG.jpg" title="OB trucks">en.wikipedia.org/wiki/File:BBC_HD_SNG.jpg</a></footer>
     </article>
     <aside class="note">
+      [cwilso]this is a bit misleading - the satellite connection is still necessary, just not the huge expensive camera.
       <p>This is how it used to work: OB trucks, satellite time, lots of staff.</p>
     </aside>
 </slide>
