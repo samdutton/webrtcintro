@@ -18,14 +18,20 @@ var SLIDE_CONFIG = {
   },
 
   // Author information
-  // presenters: [
-  // {
+  presenters: [
+  {
+    name: "Chris Wilson",
+    company: "Google Chrome Developer Advocate",
+    gplus: "http://plus.google.com/+ChrisWilson",
+    twitter: "cwilso",
+    www: "http://cwilso.com",
+    github: "http://github.com/cwilso"
   //   name: 'Sam Dutton',
   //   company: 'Developer Advocate, Google Chrome',
   //   gplus: 'http://plus.samdutton.com',
   //   twitter: '@sw12',
   //   www: 'http://www.samdutton.com',
   //   github: 'http://github.com/samdutton'
-  // }]
+  }]
 };
 
