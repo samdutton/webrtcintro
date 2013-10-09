@@ -88,7 +88,7 @@ URL: https://code.google.com/p/io-2012-slides
   </article>
   <aside class="note">
     <p>WebRTC is a collaboration to build real time communication into web browsers.</p>
-    <p>Web RTC really is a response to the demand for realtime communication features in the open web - without plugins or proprietary codecs, free for developers and users.</p>
+    <p>Web RTC really is a response to the demand for realtime communication features in the open web - without plugins or proprietary codecs, free for users and developers to use.</p>
     <p>This has been a big missing feature in the web platform.</p>
   </aside>
 </slide>
@@ -155,7 +155,7 @@ URL: https://code.google.com/p/io-2012-slides
     <img src="images/android.jpg" alt="Firefox/Chrome interoperability" style="position: absolute; right: 2em; top: -82px; width: 320px" />
     <img src="images/firefoxChrome.jpg" alt="Firefox/Chrome interoperability" style="position: absolute; bottom: 5em; width: 45%;" />
   </article>
-  <aside>
+  <aside class="note">
     <p>Actually, that's not true at all.  Chrome, Firefox and Opera all implement WebRTC; in fact, Chrome and Firefox implement WebRTC on Android, too!  Let's take a look; Peter is outside with my Android tablet right now, and I'm going to jump over to Firefox...</p>
   </aside>
 </slide>
@@ -357,11 +357,25 @@ function errorCallback(error) {
 
 <slide class="nobackground">
   <article class="fill flexbox vcenter">
-    <div class="bigger"><a href="http://www.simpl.info/gum" title="Simple getUserMedia demo">simpl.info/gum</a></div>
+    <div class="big"><a href="http://www.simpl.info/gum" title="Simple getUserMedia demo">simpl.info/gum</a></div><p>&nbsp;</p>
+    <pre class="prettyprint" data-lang="javascript">var video = document.querySelector("video");
+
+function successCallback(stream) {
+  window.stream = stream; // stream available to console
+  if (window.URL) {
+    <b>video.src = window.URL.createObjectURL(stream);</b>
+  } else {
+    video.src = stream;
+  }
+  video.play();
+}
+
+navigator.getUserMedia( {audio: false, video: true}, successCallback, errorCallback);
+</pre>    
   </article>
   <aside class="note">
-    <p>Chrome, Firefox, Chrome and Firefox on Android.</p>
-    <p>Not Opera right now -- which is in transition.</p>
+    <p>You can also do other things with that video stream - most notably, you can assign it to a video SRC attribute, and display it live!</p>
+    <p>I want to briefly talk about security of this access to the camera...</p>
   </aside>
 </slide>
 
@@ -371,16 +385,14 @@ function errorCallback(error) {
   </hgroup>
   <article>
     <ul>
-      <li>HTTPS</li>
+      <li>HTTPS only prompts once!</li>
       <li>Chrome apps: <code>audioCapture</code> and <code>videoCapture</code> permissions</li>
-      <li>Chrome flag: <code>--use-fake-ui-for-media-stream</code></li>
       <li>UI settings can be changed afterwards.</li>
     </ul>
   </article>
   <aside class="note">
    <p>If you run with HTTPS, or from an app, permission will only be asked for once.</p>
     <p>Likewise with Chrome apps that ask for "audioCapture" and"videoCapture" permissions. Permission is only requested on installation. gUM isn't available for Chrome extensions at this point, though I believe some have been whitelisted.</p>
-    <p>Chrome flag: <code>--use-fake-ui-for-media-stream</code></p>
     <p>To change cameras/settings in Chrome click to the right of the URL bar</p>
   </aside>
 </slide>
@@ -431,11 +443,11 @@ function errorCallback(error) {
     <article class="fill flexbox vcenter">
       <div style="margin: 0 0 1em 0; font-weight: bold">gUM + Canvas</div>
       <div><a href="http://idevelop.github.com/ascii-camera/" title="getUserMedia video rendered as ASCII art">idevelop.github.com/ascii-camera</a></div>
+      <div>(<a href="http://idevelop.ro/ascii-camera/">alternate link</a>)</div>
     </article>
     <aside class="note">
     <p>gUM gets interesting when plugged into other APIs.</p>
-    <p>Image from gUM is used for a Canvas element.</p>
-    <p>Each pixel is then analysed and turned into ASCII.</p>
+    <p>This page is frame-grabbing images from the gUM video, and then analysing each pixel and turning it into ASCII.</p>
     </aside>
 </slide>
 
@@ -519,6 +531,43 @@ function errorCallback(error) {
 
 <slide>
   <hgroup>
+    <h2>getUserMedia + Web Audio</h2>
+  </hgroup>
+  <article>
+    <pre class="prettyprint" data-lang="javascript">
+// Success callback when requesting audio input stream
+function gotStream(stream) {
+    var audioContext = new webkitAudioContext();
+
+    // Create an AudioNode from the stream
+    <b>var mediaStreamSource = audioContext.createMediaStreamSource(stream);</b>
+
+    // Connect it to the destination or any other node for processing!
+    mediaStreamSource.connect(audioContext.destination);
+}
+
+navigator.webkitGetUserMedia( <b>{audio:true}</b>, gotStream);
+</pre>
+  <p style='margin: 2em 0 0 0'>Make sure to enable Web Audio Input in about:flags!</p>
+
+  </article>
+  <aside class="note">
+  <p>RTCPeerConnection will also accept Web Audio output.</p>
+  </aside>
+</slide>
+
+ <slide class="nobackground">
+    <article class="fill flexbox vcenter">
+      <div style="margin: 0 0 1em 0; font-weight: bold">gUM + Web Audio + WebGL</div>
+      <div><a href="http://www.webaudiodemos.appspot.com/Vocoder/index.html" title="Record audio">webaudiodemos.appspot.com/Vocoder</a></div>
+    </article>
+    <aside class="note">
+    </aside>
+</slide>
+
+
+<slide>
+  <hgroup>
   </hgroup>
     <article class="fill flexbox vcenter">
       <div style="margin: 0 0 1em 0; font-weight: bold">Select resolution</div>
@@ -549,10 +598,11 @@ function errorCallback(error) {
 
 <slide>
   <hgroup>
-    <h2>Facing mode, applyConstraints()</h2>
+    <h2>Work underway to make this more user-focused</h2>
   </hgroup>
   <article>
     <ul>
+      <li>User wants to choose "front-facing" or "rear-facing" camera, not a USB ID!</li>
       <li>Choose source: <a href="http://www.w3.org/TR/mediacapture-streams/#video-facing-mode-enum" title="W3C facing mode draft spec">spec</a></li>
       <li>Apply constraints dynamically from JavaScript: <a href="http://www.w3.org/TR/mediacapture-streams/#widl-MediaStreamTrack-applyConstraints-void-MediaTrackConstraints-constraints" title="W3C applyConstraints() draft spec">spec</a></li>
     </ul>
@@ -568,45 +618,10 @@ function errorCallback(error) {
 
 <slide>
   <hgroup>
-    <h2>getUserMedia + Web Audio</h2>
+    <h2>gUM screencapture!</h2>
   </hgroup>
   <article>
-    <pre class="prettyprint" data-lang="javascript">
-// Success callback when requesting audio input stream
-function gotStream(stream) {
-    var audioContext = new webkitAudioContext();
-
-    // Create an AudioNode from the stream
-    var mediaStreamSource = audioContext.createMediaStreamSource(stream);
-
-    // Connect it to the destination or any other node for processing!
-    mediaStreamSource.connect(audioContext.destination);
-}
-
-navigator.webkitGetUserMedia({audio:true}, gotStream);
-</pre>
-  <p style='margin: 2em 0 0 0'>Make sure to enable Web Audio Input in about:flags!</p>
-
-  </article>
-  <aside class="note">
-  <p>RTCPeerConnection will also accept Web Audio output.</p>
-  </aside>
-</slide>
-
- <slide class="nobackground">
-    <article class="fill flexbox vcenter">
-      <div style="margin: 0 0 1em 0; font-weight: bold">gUM + Web Audio + Canvas + Recorder.js</div>
-      <div><a href="http://www.webaudiodemos.appspot.com/AudioRecorder/index.html" title="Record audio">webaudiodemos.appspot.com/AudioRecorder</a></div>
-    </article>
-    <aside class="note">
-    </aside>
-</slide>
-
-<slide>
-  <hgroup>
-    <h2>gUM screencapture</h2>
-  </hgroup>
-  <article>
+    <p>Be sure to enable <a href="chrome://flags/#enable-usermedia-screen-capture">screen capture support in getUserMedia</a>!</p>
     <pre class="prettyprint" data-lang="javascript">
 var constraints = {
   video: {
@@ -697,6 +712,8 @@ function gotAudio(stream) {
   </aside>
 </slide> -->
 
+
+<!--
 <slide>
   <hgroup>
     <h2>Media Stream Recording API</h2>
@@ -710,6 +727,7 @@ function gotAudio(stream) {
     </ul>
     </article>
     <aside class="note">
+      <p>Needs Firefox!</p>
       <p>How does it work? A MediaRecorder is created which takes an audio stream from navigator.getUserMedia(). When a blob of recorded data becomes available (set to occur after two seconds) this is used to set the src of the audio element, using window.URL.createObjectURL().</p>
     </aside>
 </slide>
@@ -730,6 +748,7 @@ function gotAudio(stream) {
       <p>How does it work? A MediaRecorder is created which takes an audio stream from navigator.getUserMedia(). When a blob of recorded data becomes available (set to occur after two seconds) this is used to set the src of the audio element, using window.URL.createObjectURL().</p>
     </aside>
 </slide>
+-->
 
 <slide class="segue dark nobackground">
   <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
@@ -838,7 +857,7 @@ function gotAudio(stream) {
     <img src="images/jsep.png" alt="JSETP architecture diagram">
   </article>
     <aside class="note">
-    <p>Here's a diagram that demonstrates this process. The caller sends a session description to its signaling server in the cloud, which then forwards this on to the callee. Similarly, the callee then sends its own session description back through the cloud to the caller. Once each side has given the session descriptions to RTCPeerConnection, the peer-to-peer link is established and media can flow.</p>
+    <p>This is where the Javascript Session Establishment Protocol comes in to play.  Here's a diagram that demonstrates this process. The caller sends a session description to its signaling server in the cloud, which then forwards this on to the callee. Similarly, the callee then sends its own session description back through the cloud to the caller. Once each side has given the session descriptions to RTCPeerConnection, the peer-to-peer link is established and media can flow.</p>
   </aside>
 </slide>
 
@@ -1236,6 +1255,7 @@ document.querySelector("button#send").onclick = function (){
   </aside>
 </slide>
 
+<!--
 <slide class="segue dark nobackground">
   <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
   <hgroup class="auto-fadein">
@@ -1393,7 +1413,7 @@ document.querySelector("button#send").onclick = function (){
       <p>For basic testing, we run a public STUN server, and we also include source code for STUN and TURN servers in the WebRTC tree. For running a production STUN/TURN service, we recommend using rfc5766-turn-server, which has source code and AWS VM images, or restund, available as source code.</p>
     </aside>
 </slide>
-
+-->
 <slide class="segue dark nobackground">
   <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
   <hgroup class="auto-fadein">
