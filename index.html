@@ -43,7 +43,7 @@ URL: https://code.google.com/p/io-2012-slides
     <p data-config-presenter><!-- populated from slide_config.json --></p>
 <!--     <p><a href="http://twitter.com/sw12" title="Sam Dutton on Twitter">@sw12</a></p>
  -->  </hgroup>
-  <aside class="note"><p>
+  <aside class="note"><p>Good evening!  I'm Chris Wilson, I'm a developer advocate on the Chrome team, and together with Ben and Dan later in the evening, we're here to talk about plug-free realtime communications on the web, with WebRTC!
   </p></aside>
 </slide>
 
@@ -61,8 +61,8 @@ URL: https://code.google.com/p/io-2012-slides
       <div class='big'><a href="http://webrtcintro.appspot.com" title="These slides online">webrtcintro.appspot.com</a></div>
     </article>
     <aside class="note">
-      First of all, this deck is live on the web, so you can follow along or refer to it later.
-    <p>I'm going to lay out the fundamentals of WebRTC, including showing you what you can build with WebRTC and how, but I'm going to begin by explaining some of the context of the project.</p>
+      Before I get going - this deck is live on the web, so you can follow along or refer to it later.
+    <p>I'm going to lay out the fundamentals of WebRTC, including showing you what you can build with WebRTC and how, and leave some huge areas of detail to Ben and Dan.  But first, I wanted to begin by explaining some of the context of the WebRTC project.</p>
     </aside>
 </slide>
 
@@ -88,18 +88,18 @@ URL: https://code.google.com/p/io-2012-slides
   </article>
   <aside class="note">
     <p>WebRTC is a collaboration to build real time communication into web browsers.</p>
-    <p>Web RTC really is a response to the demand for realtime communication features in the open web - without plugins or proprietary codecs, free for users and developers to use.</p>
+    <p>It's really a response to the demand for realtime communication features in the open web - without plugins or proprietary codecs, free for users and developers to use.</p>
     <p>This has been a big missing feature in the web platform.</p>
   </aside>
 </slide>
 
 <slide class="nobackground">
     <article class="fill flexbox vcenter">
-      <div class='big'>Peer to peer</div>
+      <div class='big'><a href="https://apprtc.appspot.com/">Peer to peer</a></div>
     </article>
     <aside class="note">
-      <p>And for reasons that will become obvious...</p>
-      <p>WebRTC had to be peer to peer.</p>
+      <p>And right up front, I want to be clear that WebRTC is about peer-to-peer communications.</p>
+      <p>To demonstrate that, I wanted to introduce one of my peers, who many of you may recognize from the last meetup...
     </aside>
 </slide>
 
@@ -186,28 +186,11 @@ URL: https://code.google.com/p/io-2012-slides
   </aside>
 </slide>
 
-<slide class="segue dark quote nobackground">
-  <aside class="gdbar right bottom"><img src="images/google_developers_icon_128.png"></aside>
-  <article class="flexbox vleft auto-fadein">
-    <q>Voice is just another JS application</q>
-    <div class="author">
-      Henning Schulzrinne<br>
-      &ndash; CTO, US FCC
-    </div>
-  </article>
-  <aside class="note">
-    [cwilso]Is the point of this that WebRTC is audio-only too?
-    <p>The impact could be profound.</p>
-    <p>The end of telephony as we know it? Time will tell.</p>
-  </aside>
-</slide>
-
 <slide class="nobackground">
   <article class="fill flexbox vcenter">
     <div><a href="blog.vline.com/post/61581986806/live-tv-interview-powered-by-vline-customer-in-quality" title="vLine blog post" style="border-bottom: none;"><img src="images/skyLarge.jpg" alt="Sky TV interview done via WebRTC" style="width: 100%;" /></a></div>
   </article>
   <aside class="note">
-  <p>Video chat, games, messaging -- imagine a scientific app using sensors on a low spec device running Chrome, collaborative editing suite for broadcast</p>
   <p>Just last month saw the first live TV interview done via WebRTC</p>
   </aside>
 </slide>
@@ -218,7 +201,6 @@ URL: https://code.google.com/p/io-2012-slides
       <footer class="source" style='position: absolute; bottom: 23px; left: 150px'><a href="https://en.wikipedia.org/wiki/File:BBC_HD_SNG.jpg" title="OB trucks">en.wikipedia.org/wiki/File:BBC_HD_SNG.jpg</a></footer>
     </article>
     <aside class="note">
-      [cwilso]this is a bit misleading - the satellite connection is still necessary, just not the huge expensive camera.
       <p>This is how it used to work: OB trucks, satellite time, lots of staff.</p>
     </aside>
 </slide>
@@ -241,17 +223,18 @@ URL: https://code.google.com/p/io-2012-slides
     <h3></h3>
   </hgroup>
   <aside class="note">
-    <p>So that's the vision for WebRTC. Now let's dig into the APIs that WebRTC provides.</p>
+    <p>So that's the vision for WebRTC. Now let's dig into how WebRTC works.</p>
   </aside>
 </slide>
 
 <slide>
   <hgroup>
-    <h2>Three main tasks</h2>
+    <h2>Four main tasks</h2>
   </hgroup>
     <article>
   <ul>
     <li>Acquiring audio and video</li>
+    <li>Establishing a connection between peers</li>
     <li>Communicating audio and video</li>
     <li>Communicating arbitrary data</li>
   </ul>
@@ -267,7 +250,7 @@ URL: https://code.google.com/p/io-2012-slides
   </hgroup>
   <article>
   <ul>
-    <li>MediaStream (aka getUserMedia)</li>
+    <li>MediaStreams (aka getUserMedia)</li>
     <li>RTCPeerConnection</li>
     <li>RTCDataChannel</li>
   </ul>
@@ -283,9 +266,7 @@ URL: https://code.google.com/p/io-2012-slides
     <h3>Acquiring audio and video</h3>
   </hgroup>
   <aside class="note">
-    <p>Prime use case for WebRTC is... communication.</p>
-    <p>Prime example of that is voice and video chat.</p>
-    <p>What do we need to do for that?</p>
+    <p>So let's dive in to how we acquire and access local audio and video streams.</p>
     <p></p>
   </aside>
 </slide>
@@ -443,7 +424,7 @@ navigator.getUserMedia( {audio: false, video: true}, successCallback, errorCallb
     <article class="fill flexbox vcenter">
       <div style="margin: 0 0 1em 0; font-weight: bold">gUM + Canvas</div>
       <div><a href="http://idevelop.github.com/ascii-camera/" title="getUserMedia video rendered as ASCII art">idevelop.github.com/ascii-camera</a></div>
-      <div>(<a href="http://idevelop.ro/ascii-camera/">alternate link</a>)</div>
+<!--      <div>(<a href="http://idevelop.ro/ascii-camera/">alternate link</a>)</div>-->
     </article>
     <aside class="note">
     <p>gUM gets interesting when plugged into other APIs.</p>
@@ -837,16 +818,33 @@ function gotAudio(stream) {
     </aside>
 </slide>
 
-<slide>
+<slide class="nobackground">
   <hgroup>
-    <h2>What does WebRTC need servers for?</h2>
+    <h2>Signaling</h2>
   </hgroup>
   <article>
     <ul>
       <li>Exchange metadata to coordinate communication: signaling</li>
       <li>Cope with NATs and firewalls: STUN and TURN</li>
+<p>&nbsp;</p>
+      <li>Need to exchange 'session description' objects:</li>
+      <ul class="tight">
+        <li>What media formats I support, what I want to send</li>
+        <li>Network information for peer-to-peer setup</li>
+      </ul>
+      <li>Can use any messaging mechanism</li>
+      <li>Can use any messaging protocol</li>
+      <li>...and can be used for application data</li>
     </ul>
   </article>
+  <aside class="note">
+    <p>What does WebRTC need servers for?</p>
+    <p>Signaling is the process of coordinating communication. Similar to, when you make a phone call, the phone system sends a message to the person you're calling indicating that there's an incoming call. Then, when you answer the call, a message is sent back indicating the call is live.</p>
+    <p>The same is true for WebRTC. A message needs to get sent by each side indicating the parameters they want to use for the call. This is called a "session description", and it includes a bunch of details regarding codecs, encryption, network information, etc.</p>
+    <p>The details aren't critical for most apps; they just need to exchange these messages in some way. The mechanism is up to the app - it can use WebSocket, XHR and Server-sent Events, whatever it wants to use.</p>
+    <p>Similarly, the exact protocol through which these are exchanged is also up to the app - many apps will send these messages as JSON, although some apps may use the standard SIP or XMPP protocols.</p>
+
+  </aside>
 </slide>
 
 <slide>
@@ -861,29 +859,6 @@ function gotAudio(stream) {
   </aside>
 </slide>
 
-<slide class="nobackground">
-  <hgroup>
-    <h2>Signaling</h2>
-  </hgroup>
-  <article>
-    <ul>
-      <li>Need to exchange 'session description' objects:</li>
-      <ul class="tight">
-        <li>What media formats I support, what I want to send</li>
-        <li>Network information for peer-to-peer setup</li>
-      </ul>
-      <li>Can use any messaging mechanism</li>
-      <li>Can use any messaging protocol</li>
-      <li>...and can be used for application data</li>
-    </ul>
-  </article>
-  <aside class="note">
-    <p>Signaling is the process of coordinating communication. Similar to, when you make a phone call, the phone system sends a message to the person you're calling indicating that there's an incoming call. Then, when you answer the call, a message is sent back indicating the call is live.</p>
-    <p>The same is true for WebRTC. A message needs to get sent by each side indicating the parameters they want to use for the call. This is called a "session description", and it includes a bunch of details regarding codecs, encryption, network information, etc.</p>
-    <p>The details aren't critical for most apps; they just need to exchange these messages in some way. The mechanism is up to the app - it can use WebSocket, XHR and Server-sent Events, whatever it wants to use.</p>
-    <p>Similarly, the exact protocol through which these are exchanged is also up to the app - many apps will send these messages as JSON, although some apps may use the standard SIP or XMPP protocols.</p>
-  </aside>
-</slide>
 
 <!-- <slide>
   <hgroup>
@@ -910,23 +885,6 @@ function gotAudio(stream) {
     </aside>
 </slide> -->
 
-<slide>
-  <hgroup>
-    <h2>Signaling with Node and Socket.io</h2>
-  </hgroup>
-  <article>
-  <ul>
-    <li>Socket.io uses WebSocket with fallbacks</li>
-    <li>Simple to exchange messages</li>
-    <li>Built-in concept of 'rooms'</li>
-  </ul>
-  <p><a href="https://bitbucket.org/webrtc/codelab/src/master/complete/step5" title="Codelab walkthrough to build signaling server with Socket.io">Codelab</a></p>
-  <p><a href="http://samdutton-nodertc.jit.su" title="Video chat application using Socket.io for signaling">Live example</a></p>
-  </article>
-    <aside class="note">
-    </aside>
-</slide>
-
 <!-- <slide>
   <hgroup>
     <h2>Signaling gotchas</h2>
@@ -950,9 +908,27 @@ function gotAudio(stream) {
     <ul>
       <li>Ascertain local media conditions: resolution, codec capabilities...</li>
       <li>Get potential network addresses for the application's host: candidates</li>
-        <li>Exchange this data via the signaling mechanism.</li>
+      <li>Exchange this data via the signaling mechanism.</li>
     </ul>
+    <a href="http://www.w3.org/TR/webrtc/#simple-peer-to-peer-example" title="Simple W3C Signaling example">w3.org/TR/webrtc/#simple-peer-to-peer-example</a>
   </article>
+</slide>
+
+<slide>
+  <hgroup>
+    <h2>Signaling with Node and Socket.io</h2>
+  </hgroup>
+  <article>
+  <ul>
+    <li>Socket.io uses WebSocket with fallbacks</li>
+    <li>Simple to exchange messages</li>
+    <li>Built-in concept of 'rooms'</li>
+  </ul>
+  <p><a href="https://bitbucket.org/webrtc/codelab/src/master/complete/step5" title="Codelab walkthrough to build signaling server with Socket.io">Codelab</a></p>
+  <p><a href="http://samdutton-nodertc.jit.su" title="Video chat application using Socket.io for signaling">Live example</a></p>
+  </article>
+    <aside class="note">
+    </aside>
 </slide>
 
 <!-- <slide>
@@ -1058,26 +1034,6 @@ a=ice-pwd:xdQEccP40E+P0L5qTyzDgfmW
     </aside>
 </slide>
 
-<slide>
-  <hgroup>
-    <h2>RTCPeerConnection + signaling</h2>
-  </hgroup>
-  <article class="flexbox vcenter">
-<a href="http://www.w3.org/TR/webrtc/#simple-peer-to-peer-example" title="Simple W3C Signaling example">w3.org/TR/webrtc/#simple-peer-to-peer-example</a>
-  </article>
-    <aside class="note">
-      <p>1. Fred creates an RTCPeerConnection object.
-  2. Fred creates an offer (an SDP session description) with the RTCPeerConnection createOffer() method.
-  3. Fred calls setLocalDescription() with the offer, to set local configuration.
-  4. Fred stringifies the offer and uses a signaling mechanism to send it to Wilma.
-  5. Wilma calls setRemoteDescription() with Fred's offer (the remote session description) so her RTCPeerConnection knows Fred's setup.
-  6. Wilma also calls createAnswer() with the offer.
-  7. The success callback for createAnswer() is passed a local session description for Wilma (which she'll uses as the answer) and she sets this as the local description by calling setLocalDescription().
-  8. Wilma then uses the signaling mechanism to pass her answer session description back to Fred.
-  9. Fred sets that as the remote session description using setRemoteDescription().</p>
-    </aside>
-</slide>
-
 <!-- <slide class="nobackground">
     <article class="fill flexbox vcenter">
       <div style="margin: 0 0 1em 0; font-weight: bold">Edit SDP</div>
@@ -1098,6 +1054,15 @@ a=ice-pwd:xdQEccP40E+P0L5qTyzDgfmW
     <p>Hot off the press...</p>
     <p>It's now possible to use the output of one RTCPeerConnection as the input for another.</p>
     <p>This is useful because it allows a WebRTC application to route calls.</p>
+    </aside>
+</slide>
+
+<slide class="nobackground red">
+    <article class="fill flexbox vcenter">
+      <div class="big"><strong>My head hurts.</strong></div>
+    </article>
+    <aside class="note">
+      At this point, you're probably thinking "head hurts."  Don't worry!  Ben is going to spend a bunch more time diving in to these pieces.
     </aside>
 </slide>
 
@@ -1131,7 +1096,7 @@ a=ice-pwd:xdQEccP40E+P0L5qTyzDgfmW
     <h3>Bidirectional communication of arbitrary data between peers</h3>
   </hgroup>
   <aside class="note">
-    <p>The last API to talk about is RTCDataChannel.</p>
+    <p>The last API to talk about is RTCDataChannel.  Dan is going to give a whole talk about DataChannels, so I don't want to duplicate too much - I just want you to get the basic idea.</p>
   </aside>
 </slide>
 
@@ -1517,16 +1482,31 @@ document.querySelector("button#send").onclick = function (){
 <slide class="segue dark nobackground">
   <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
   <hgroup class="auto-fadein">
-    <h2>Beyond browsers</h2>
+    <h2>Voice</h2>
   </hgroup>
   <aside class="note">
       <p></p>
   </aside>
 </slide>
 
+<slide class="segue dark quote nobackground">
+  <aside class="gdbar right bottom"><img src="images/google_developers_icon_128.png"></aside>
+  <article class="flexbox vleft auto-fadein">
+    <q>Voice is just another JS application</q>
+    <div class="author">
+      Henning Schulzrinne<br>
+      &ndash; CTO, US FCC
+    </div>
+  </article>
+  <aside class="note">
+    <p>The impact could be profound.</p>
+    <p>The end of telephony as we know it? Time will tell.</p>
+  </aside>
+</slide>
+
 <slide>
   <hgroup>
-    <h2>Phones and more</h2>
+    <h2>Phones and more - beyond browsers</h2>
   </hgroup>
   <article>
   <ul>
@@ -1539,7 +1519,7 @@ document.querySelector("button#send").onclick = function (){
     </ul>
   </article>
     <aside class="note">
-      <p>WebRTC has been designed with standards in mind, which means it's easy for it to communicate with non-WebRTC devices, like phones. There are a bunch of libraries out there that allow you to do this with just a few lines of code. Let's take a look at a demo from Zingaya.'</p>
+      <p>WebRTC has been designed with standards in mind, which means it's easy for it to communicate with non-browser devices, like phones. There are a bunch of libraries out there that allow you to do this with just a few lines of code. Let's take a look at a demo from Zingaya.'</p>
     </aside>
 </slide>
 
@@ -1574,7 +1554,7 @@ document.querySelector("button#send").onclick = function (){
 <slide class="segue dark nobackground">
   <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
   <hgroup class="auto-fadein">
-    <h2>Building a WebRTC app</h2>
+    <h2>Developing with WebRTC</h2>
   </hgroup>
   <aside class="note">
     <p>We have tools to help you!</p>
@@ -1611,9 +1591,10 @@ document.querySelector("button#send").onclick = function (){
 
 <slide class="nobackground red">
     <article class="fill flexbox vcenter">
-      <div class="big"><strong>This is doing my head in.</strong></div>
+      <div class="big"><strong>My brain has already exploded.</strong></div>
     </article>
     <aside class="note">
+      At this point, you're probably thinking "my brain has already exploded, and this is just the OVERVIEW talk?!?"
     </aside>
 </slide>
 
@@ -1637,6 +1618,7 @@ document.querySelector("button#send").onclick = function (){
     </ul>
   </article>
     <aside class="note">
+      Well, there are plenty of frameworks to help you pick your way through WebRTC, and some libraries to get you going.
     </aside>
 </slide>
 
@@ -1797,6 +1779,7 @@ conn.on('open', function(){
   </aside>
 </slide>
 
+<!--
 <slide class="nobackground">
     <article class="fill flexbox vcenter">
       <div class="big"><a href="http://talky.io/webrtcintro" title="Video chat app">talky.io/webrtcintro</a></div>
@@ -1805,24 +1788,20 @@ conn.on('open', function(){
     <p>WebRTC live!</p>
     </aside>
 </slide>
-
-<slide class="nobackground">
-    <article class="fill flexbox vcenter">
-      <div class="big"><a href="http://webrtcintro.appspot.com" title="These slides online">webrtcintro.appspot.com</a></div>
-    </article>
-    <aside class="note">
-    Once again, the link to the slides.
-    </aside>
-</slide>
+-->
 
 <slide class="thank-you-slide segue nobackground">
   <aside class="gdbar right"><img src="images/google_developers_icon_128.png"></aside>
   <article class="flexbox vleft auto-fadein">
     <h2>&lt;Thank You!&gt;</h2>
+      <p style="font-size:1.2em"><a href="http://webrtcintro.appspot.com" style="color:inherit" title="These slides online">http://webrtcintro.appspot.com</a></p>
   </article>
   <p class="auto-fadein" data-config-contact>
     <!-- populated from slide_config.json -->
   </p>
+      <aside class="note">
+    Once again, the link to the slides.
+    </aside>
 </slide>
 
 <slide class="logoslide dark nobackground">
