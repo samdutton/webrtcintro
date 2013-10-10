@@ -147,7 +147,7 @@ URL: https://code.google.com/p/io-2012-slides
   </hgroup>
   <article style="height: 100%; position: relative">
     <ul class="tight" xstyle='margin: 0 1em 0 0'>
-      <li>Chrome and Chrome for Android</li>
+      <li><a href="http://apprtc.appspot.com">Chrome and Chrome for Android</a></li>
       <li>Firefox and Firefox for Android</li>
       <li>Opera</li>
       <li>Native <a href="https://code.google.com/p/libjingle/source/browse/trunk/talk/app/webrtc/java/src/org/webrtc/PeerConnection.java">Java</a> and Objective-C bindings</li>
@@ -156,7 +156,7 @@ URL: https://code.google.com/p/io-2012-slides
     <img src="images/firefoxChrome.jpg" alt="Firefox/Chrome interoperability" style="position: absolute; bottom: 5em; width: 45%;" />
   </article>
   <aside class="note">
-    <p>Actually, that's not true at all.  Chrome, Firefox and Opera all implement WebRTC; in fact, Chrome and Firefox implement WebRTC on Android, too!  Let's take a look; Peter is outside with my Android tablet right now, and I'm going to jump over to Firefox...</p>
+    <p>Actually, that's not true at all.  Chrome, Firefox and Opera all implement WebRTC; in fact, Chrome and Firefox implement WebRTC on Android, too!  Let's take a look; I'm going to load up our webRTC chat demo, and now I'll go to the same site on my mobile... Wave to yourselves!</p>
   </aside>
 </slide>
 
@@ -173,6 +173,7 @@ URL: https://code.google.com/p/io-2012-slides
   </article>
   <aside class="note">
     <p>The Qt framework (for building cross-platform/device native and embedded apps) is moving from Qt WebKit to Qt WebEngine, based on Chromium, so they will be getting WebRTC support too!</p>
+    <p>Putting all of these implementations together, this means...</p>
   </aside>
 </slide>
 
@@ -182,16 +183,16 @@ URL: https://code.google.com/p/io-2012-slides
        <div>WebRTC endpoints</div>
   </article>
   <aside class="note">
-  <p>With all of these together, this means we have over one billion WebRTC-enabled users today, which gives some idea of the size of this opportunity. In order to grow the ecosystem further, we're also providing official, supported native versions of WebRTC for Android, and iOS.</p>
+  <p>...we have over one billion WebRTC-enabled users today, which gives some idea of the size of this opportunity. In order to grow the ecosystem further, we're also providing official, supported native versions of WebRTC for Android, and iOS.</p>
   </aside>
 </slide>
 
 <slide class="nobackground">
   <article class="fill flexbox vcenter">
-    <div><a href="blog.vline.com/post/61581986806/live-tv-interview-powered-by-vline-customer-in-quality" title="vLine blog post" style="border-bottom: none;"><img src="images/skyLarge.jpg" alt="Sky TV interview done via WebRTC" style="width: 100%;" /></a></div>
+    <div><a href="http://blog.vline.com/post/61581986806/live-tv-interview-powered-by-vline-customer-in-quality" title="vLine blog post" style="border-bottom: none;"><img src="images/skyLarge.jpg" alt="Sky TV interview done via WebRTC" style="width: 100%;" /></a></div>
   </article>
   <aside class="note">
-  <p>Just last month saw the first live TV interview done via WebRTC</p>
+  <p>Back in August vLine facilitated the first live TV interview done via WebRTC on SkyNews.</p>
   </aside>
 </slide>
 
@@ -201,17 +202,16 @@ URL: https://code.google.com/p/io-2012-slides
       <footer class="source" style='position: absolute; bottom: 23px; left: 150px'><a href="https://en.wikipedia.org/wiki/File:BBC_HD_SNG.jpg" title="OB trucks">en.wikipedia.org/wiki/File:BBC_HD_SNG.jpg</a></footer>
     </article>
     <aside class="note">
-      <p>This is how it used to work: OB trucks, satellite time, lots of staff.</p>
+      <p>To put this in context - typically live TV interview setups look like this.</p>
     </aside>
 </slide>
 
 <slide class="nobackground">
   <article class="fill flexbox vcenter">
-    <div><a href="blog.vline.com/post/61581986806/live-tv-interview-powered-by-vline-customer-in-quality" title="vLine blog post" style="border-bottom: none;"><img src="images/skyKit.jpg" alt="Webcam and Yeti mic used for Sky interview" style="width: 100%;" /></a></div>
+    <img src="images/skyKit.jpg" alt="Webcam and Yeti mic used for Sky interview" style="width: 100%;" />
   </article>
   <aside class="note">
-  <p>And the kit to do that with WebRTC?</p>
-  <p>A hundred Euro Yeti mic and I webcam like the one I've got here.</p>
+  <p>By contrast, the rig used to do that SkyNews interview looked like this - like a standard video podcasting rig.  WebRTC is about democratizing peer-to-peer realtime audio and video communications.</p>
   </aside>
 </slide>
 
@@ -262,29 +262,12 @@ URL: https://code.google.com/p/io-2012-slides
 <slide class="segue dark nobackground">
   <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
   <hgroup class="auto-fadein">
-    <h2>MediaStream</h2>
+    <h2>MediaStreams</h2>
     <h3>Acquiring audio and video</h3>
   </hgroup>
   <aside class="note">
     <p>So let's dive in to how we acquire and access local audio and video streams.</p>
     <p></p>
-  </aside>
-</slide>
-
-<slide>
-  <hgroup>
-    <h2>What do we need?</h2>
-  </hgroup>
-  <article>
-    <ul>
-      <li>Streaming media: <code>MediaStream</code></li>
-      <li>Get local media: <code>navigator.getUserMedia()</code></li>
-    </ul>
-  </article>
-  <aside class="note">
-    <p>Need to work with streaming media.</p>
-    <p>The shopping list is getting longer...</p>
-    <p>A way to get local media.</p>
   </aside>
 </slide>
 
@@ -339,19 +322,20 @@ function errorCallback(error) {
 <slide class="nobackground">
   <article class="fill flexbox vcenter">
     <div class="big"><a href="http://www.simpl.info/gum" title="Simple getUserMedia demo">simpl.info/gum</a></div><p>&nbsp;</p>
-    <pre class="prettyprint" data-lang="javascript">var video = document.querySelector("video");
+    <pre class="prettyprint" data-lang="javascript">
+var constraints = {video: true};
 
 function successCallback(stream) {
-  window.stream = stream; // stream available to console
-  if (window.URL) {
-    <b>video.src = window.URL.createObjectURL(stream);</b>
-  } else {
-    video.src = stream;
-  }
-  video.play();
+  var video = document.querySelector("video");
+  <b>video.src = window.URL.createObjectURL(stream);</b>
 }
 
-navigator.getUserMedia( {audio: false, video: true}, successCallback, errorCallback);
+function errorCallback(error) {
+  console.log("navigator.getUserMedia error: ", error);
+}
+
+navigator.getUserMedia(constraints, successCallback, errorCallback);
+</pre>
 </pre>    
   </article>
   <aside class="note">
@@ -791,8 +775,7 @@ function gotAudio(stream) {
     <img src="images/webrtcArchitecture.png" alt="WebRTC architecture diagram" />
   </article>
   <aside class="note">
-  <p>Under the hood though, RTCPeerConnection is doing a lot - processing audio and video to remove noise, compressing the data using codecs, setting up the peer to peer pathway through NATs and firewalls, encrypting the data, ensuring we use the right amount of bandwidth...</p>
-  <p>Signal processing, codec handling, peer to peer communication, security, bandwidth management</p>
+    <p>Under the hood though, RTCPeerConnection is doing a lot - processing audio and video to remove noise, compressing the data using codecs, setting up the peer to peer pathway through NATs and firewalls, encrypting the data, ensuring we use the right amount of bandwidth...</p>
     <p>There's a lot of moving parts under the hood. Fortunately, with RTCPeerConnection, this is mostly abstracted away. You create a RTCPeerConnection, add your own MediaStreams to it, call a couple methods to set up the right parameters for the call, and off you go.</p>
   </aside>
 </slide>
@@ -804,7 +787,7 @@ function gotAudio(stream) {
     <h3>STUN, TURN and signaling</h3>
   </hgroup>
   <aside class="note">
-    <p>First a detour...</p>
+    <p>Or, that's what the nice fluffy white cloud I showed you would make you think.First, let's take a detour...</p>
   </aside>
 </slide>
 
@@ -813,36 +796,30 @@ function gotAudio(stream) {
       <div>Peer to peer &mdash; but we need servers  :^\</div>
     </article>
     <aside class="note">
-      <p>At this point in history there's no way to shout into the Internet, 'Exchange streaming data with my friend's computer!'</p>
-      <p>WebRTC still needs servers.</p>
+      <p>You may be asking, what does WebRTC need servers for?</p>
+      <p>Well, it's not really scalable to simply shout into the Internet, 'I want to exchange streaming data with my friend's computer! He's right over there!'.</p>
+      <p>We need to negotiate that connection.</p>
     </aside>
 </slide>
 
 <slide class="nobackground">
   <hgroup>
-    <h2>Signaling</h2>
+    <h2>Signaling - coordinating communication</h2>
   </hgroup>
   <article>
     <ul>
-      <li>Exchange metadata to coordinate communication: signaling</li>
-      <li>Cope with NATs and firewalls: STUN and TURN</li>
-<p>&nbsp;</p>
-      <li>Need to exchange 'session description' objects:</li>
+      <li>Need to cope with NATs and firewalls: STUN and TURN</li>
+      <li>To do this, we exchange 'session description' objects:</li>
       <ul class="tight">
         <li>What media formats I support, what I want to send</li>
         <li>Network information for peer-to-peer setup</li>
       </ul>
-      <li>Can use any messaging mechanism</li>
-      <li>Can use any messaging protocol</li>
-      <li>...and can be used for application data</li>
+      <li>Signaling *can* use any messaging mechanism or protocol</li>
     </ul>
   </article>
   <aside class="note">
-    <p>What does WebRTC need servers for?</p>
-    <p>Signaling is the process of coordinating communication. Similar to, when you make a phone call, the phone system sends a message to the person you're calling indicating that there's an incoming call. Then, when you answer the call, a message is sent back indicating the call is live.</p>
-    <p>The same is true for WebRTC. A message needs to get sent by each side indicating the parameters they want to use for the call. This is called a "session description", and it includes a bunch of details regarding codecs, encryption, network information, etc.</p>
-    <p>The details aren't critical for most apps; they just need to exchange these messages in some way. The mechanism is up to the app - it can use WebSocket, XHR and Server-sent Events, whatever it wants to use.</p>
-    <p>Similarly, the exact protocol through which these are exchanged is also up to the app - many apps will send these messages as JSON, although some apps may use the standard SIP or XMPP protocols.</p>
+    <p>Signaling is the process of coordinating communication. Just like making a phone call, where the phone system is responsible for making connections, traversing the network - The same is true for WebRTC. A message needs to get sent by each side indicating the parameters they want to use for the call. This is called a "session description", and it includes a bunch of details regarding codecs, encryption, network information, etc.</p>
+    <p>The details aren't critical for most apps; they just need to exchange these messages in some way. The mechanism is up to the app - it can use WebSocket, XHR and Server-sent Events, whatever it wants to use, and whatever protocol - many apps will send these messages as JSON, although some apps may use the standard SIP or XMPP protocols.</p>
 
   </aside>
 </slide>
@@ -855,7 +832,7 @@ function gotAudio(stream) {
     <img src="images/jsep.png" alt="JSETP architecture diagram">
   </article>
     <aside class="note">
-    <p>This is where the Javascript Session Establishment Protocol comes in to play.  Here's a diagram that demonstrates this process. The caller sends a session description to its signaling server in the cloud, which then forwards this on to the callee. Similarly, the callee then sends its own session description back through the cloud to the caller. Once each side has given the session descriptions to RTCPeerConnection, the peer-to-peer link is established and media can flow.</p>
+    <p>This is where the Javascript Session Establishment Protocol comes in to play.  The caller sends a session description to its signaling server in the cloud, which then forwards this on to the callee. Similarly, the callee then sends its own session description back through the cloud to the caller. Once each side has given the session descriptions to RTCPeerConnection, the peer-to-peer link is established and media can flow - and the server isn't part of that communication at all.</p>
   </aside>
 </slide>
 
@@ -912,6 +889,8 @@ function gotAudio(stream) {
     </ul>
     <a href="http://www.w3.org/TR/webrtc/#simple-peer-to-peer-example" title="Simple W3C Signaling example">w3.org/TR/webrtc/#simple-peer-to-peer-example</a>
   </article>
+  <aside class="note">The RTCPeerConnection takes care of this initialisation - it checks the local media capabilities, the network landscape and such, and then exchanges this via the signaling mechanism.
+  </aside>
 </slide>
 
 <slide>
